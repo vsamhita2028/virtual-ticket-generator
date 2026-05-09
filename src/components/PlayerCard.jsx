@@ -8,13 +8,14 @@ export default function PlayerCard({ data, onRestart }) {
 
   // Map avatar id to actual image and display name
   const getAvatarDetails = () => {
+    const base = import.meta.env.BASE_URL;
     switch (data.avatar) {
-      case 'cyberpunk': return { src: '/avatars/cyberpunk.png', class: 'Cyber Hacker' };
-      case 'fantasy': return { src: '/avatars/fantasy.png', class: 'Tech Mage' };
-      case 'robot': return { src: '/avatars/robot.png', class: 'AI Construct' };
-      case 'steampunk': return { src: '/avatars/steampunk.png', class: 'Clockwork Engineer' };
-      case 'space_marine': return { src: '/avatars/space_marine.png', class: 'Space Marine' };
-      case 'cyber_ninja': return { src: '/avatars/cyber_ninja.png', class: 'Cyber Ninja' };
+      case 'cyberpunk': return { src: `${base}avatars/cyberpunk.png`, class: 'Cyber Hacker' };
+      case 'fantasy': return { src: `${base}avatars/fantasy.png`, class: 'Tech Mage' };
+      case 'robot': return { src: `${base}avatars/robot.png`, class: 'AI Construct' };
+      case 'steampunk': return { src: `${base}avatars/steampunk.png`, class: 'Clockwork Engineer' };
+      case 'space_marine': return { src: `${base}avatars/space_marine.png`, class: 'Space Marine' };
+      case 'cyber_ninja': return { src: `${base}avatars/cyber_ninja.png`, class: 'Cyber Ninja' };
       default: return { src: '', class: 'Unknown Player' };
     }
   };
@@ -219,22 +220,22 @@ export default function PlayerCard({ data, onRestart }) {
                 Community<br />Partner
               </div>
               <div style={{ background: 'white', padding: '0.2rem', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
-                <img src="/logos/Juicer Technology.jpg" alt="Juicer Technology" style={{ height: '30px' }} crossOrigin="anonymous" />
+                <img src={`${import.meta.env.BASE_URL}logos/Juicer Technology.jpg`} alt="Juicer Technology" style={{ height: '30px' }} crossOrigin="anonymous" />
               </div>
             </div>
 
             {/* Event Name */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <img src="/logos/valkey-horizontal-color-light.png" alt="Valkey" style={{ width: '75px', height: 'auto', display: 'block', verticalAlign: 'middle' }} crossOrigin="anonymous" />
+              <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ width: '75px', height: 'auto', display: 'block', verticalAlign: 'middle' }} crossOrigin="anonymous" />
 
               <span style={{ color: 'var(--color-text-muted)', fontWeight: 'bold' }}>X</span>
-              <img src="/logos/ReactHyderabadLogoFull.jpg" alt="React Hyderabad" style={{ height: '40px', borderRadius: '4px', display: 'block' }} crossOrigin="anonymous" />
+              <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '40px', borderRadius: '4px', display: 'block' }} crossOrigin="anonymous" />
             </div>
 
             {/* Platform Partner */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <div style={{ background: 'white', padding: '0.2rem', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
-                <img src="/logos/goaAvo.jpg" alt="goaAvo" style={{ height: '30px' }} crossOrigin="anonymous" />
+                <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="goaAvo" style={{ height: '30px' }} crossOrigin="anonymous" />
               </div>
               <div style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'left' }}>
                 Platform<br />Partner

@@ -3,15 +3,15 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const avatars = [
   // Original Females
-  { id: 'cyberpunk', name: 'Cyber Hacker', src: '/avatars/cyberpunk.png' },
-  { id: 'fantasy', name: 'Tech Mage', src: '/avatars/fantasy.png' },
+  { id: 'cyberpunk', name: 'Cyber Hacker', src: `${import.meta.env.BASE_URL}avatars/cyberpunk.png` },
+  { id: 'fantasy', name: 'Tech Mage', src: `${import.meta.env.BASE_URL}avatars/fantasy.png` },
   // Original Robot
-  { id: 'robot', name: 'AI Construct', src: '/avatars/robot.png' },
+  { id: 'robot', name: 'AI Construct', src: `${import.meta.env.BASE_URL}avatars/robot.png` },
   // Original Females
-  { id: 'steampunk', name: 'Clockwork Engineer', src: '/avatars/steampunk.png' },
+  { id: 'steampunk', name: 'Clockwork Engineer', src: `${import.meta.env.BASE_URL}avatars/steampunk.png` },
   // Males & Neutral
-  { id: 'space_marine', name: 'Space Marine', src: '/avatars/space_marine.png' },
-  { id: 'cyber_ninja', name: 'Cyber Ninja', src: '/avatars/cyber_ninja.png' }
+  { id: 'space_marine', name: 'Space Marine', src: `${import.meta.env.BASE_URL}avatars/space_marine.png` },
+  { id: 'cyber_ninja', name: 'Cyber Ninja', src: `${import.meta.env.BASE_URL}avatars/cyber_ninja.png` }
 ];
 
 export default function AvatarSelection({ onSelect, selected, onNext, onBack }) {
