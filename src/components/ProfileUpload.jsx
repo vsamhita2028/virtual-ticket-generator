@@ -34,7 +34,7 @@ export default function ProfileUpload({ onNext, initialData }) {
     <div className="animate-fade-in" style={{ maxWidth: '500px', margin: '0 auto', padding: '1rem 0' }}>
       <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Transforming for ValkeyThon</h2>
       <p className="text-center mb-8" style={{ color: 'var(--color-text-muted)' }}>
-        Upload your real-world credentials before stepping into the arena.
+        Upload your credentials before stepping into the arena.
       </p>
 
       <form onSubmit={handleSubmit}>
@@ -80,7 +80,7 @@ export default function ProfileUpload({ onNext, initialData }) {
           <input
             type="text"
             className="input-field"
-            placeholder="Real Name"
+            placeholder="Name"
             value={realName}
             onChange={(e) => setRealName(e.target.value)}
           />

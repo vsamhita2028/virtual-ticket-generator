@@ -148,7 +148,7 @@ export default function PlayerCard({ data, onRestart }) {
               {/* Real Identity */}
               <div style={{ flex: 1, paddingRight: '1rem' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.25rem' }}>
-                  Real World ID
+                  Identity
                 </div>
                 <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'white', lineHeight: 1.1 }}>
                   {data.realName}
