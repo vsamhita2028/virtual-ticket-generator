@@ -1,10 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import { Download, RefreshCcw, Sword, Ticket, User, ShieldCheck, Zap, Star, Activity, BarChart3, Database, MapPin, Target as GoalIcon } from 'lucide-react';
 
 export default function PlayerCard({ data, onRestart }) {
   const cardRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [scale, setScale] = useState(1);
+
+  // Responsive scaling logic
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        const newScale = (window.innerWidth * 0.9) / 600;
+        setScale(newScale);
+      } else {
+        setScale(1);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleDownload = async () => {
     if (!cardRef.current) return;
@@ -13,7 +30,7 @@ export default function PlayerCard({ data, onRestart }) {
     try {
       const canvas = await html2canvas(cardRef.current, {
         backgroundColor: '#020617',
-        scale: 3, 
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         logging: false,
@@ -32,202 +49,262 @@ export default function PlayerCard({ data, onRestart }) {
   };
 
   return (
-    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '1rem 0' }}>
-      <h2 className="text-center mb-6" style={{ fontSize: '2.2rem', fontWeight: 900, letterSpacing: '-0.03em' }}>
-        <span className="text-gradient">Arena Dossier Finalized</span>
+    <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '2rem 0' }}>
+      <h2 className="text-center mb-8" style={{ fontSize: '2.5rem', fontWeight: 900, letterSpacing: '-0.04em' }}>
+        <span className="text-gradient">Arena Identity Initialized</span>
       </h2>
 
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '1rem' }}>
-        {/* VIRTUAL TICKET CARD (PORTRAIT - HIGH TECH Dossier style) */}
-        <div
-          ref={cardRef}
-          style={{
-            width: '540px',
-            height: '960px',
-            minWidth: '540px',
-            background: '#020617',
-            borderRadius: '40px',
-            overflow: 'hidden',
-            border: '2px solid rgba(14, 165, 233, 0.3)',
-            boxShadow: '0 50px 120px rgba(0,0,0,0.9), 0 0 40px rgba(14, 165, 233, 0.1)',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
-          {/* TOP DECORATIVE HEADER */}
-          <div style={{
-            height: '100px',
-            background: 'rgba(15, 23, 42, 0.6)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 2rem',
-            borderBottom: '2px solid rgba(14, 165, 233, 0.2)',
-            zIndex: 10
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.4rem', fontWeight: 900, color: 'white', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                I AM ATTENDING <span style={{ color: 'var(--color-primary)' }}>VALKEYTHON</span>
+      <div style={{ 
+        width: '100%', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        padding: '1rem',
+        overflow: 'visible'
+      }}>
+        {/* MOBILE-RESPONSIVE SCALING WRAPPER */}
+        <div style={{
+          transform: `scale(${scale})`,
+          transformOrigin: 'top center',
+          width: '600px',
+          height: `${1000 * scale}px`,
+          transition: 'transform 0.3s ease',
+          marginBottom: '2rem'
+        }}>
+          
+          {/* VIRTUAL TICKET CARD (CYBER BENTO - CLEANED) */}
+          <div
+            ref={cardRef}
+            style={{
+              width: '600px',
+              height: '1000px',
+              minWidth: '600px',
+              background: 'linear-gradient(135deg, #020617 0%, #0f172a 100%)',
+              borderRadius: '32px',
+              overflow: 'hidden',
+              border: '1px solid rgba(14, 165, 233, 0.4)',
+              boxShadow: '0 80px 150px rgba(0,0,0,0.9), 0 0 50px rgba(14, 165, 233, 0.15)',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              fontFamily: "'Inter', sans-serif"
+            }}
+          >
+            {/* DECORATIVE BACKGROUND ELEMENTS */}
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.1, pointerEvents: 'none' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: 'radial-gradient(rgba(14, 165, 233, 0.4) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+              <div style={{ position: 'absolute', top: '15%', left: '-5%', width: '110%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.8), transparent)' }} />
+              <div style={{ position: 'absolute', top: '75%', left: '-5%', width: '110%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.8), transparent)' }} />
+            </div>
+
+            {/* TOP HEADER: STATUS & BRANDING */}
+            <div style={{
+              height: '140px',
+              background: 'rgba(15, 23, 42, 0.8)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.5rem',
+              borderBottom: '1px solid rgba(14, 165, 233, 0.3)',
+              zIndex: 10,
+              position: 'relative'
+            }}>
+              {/* Corner Accents */}
+              <div style={{ position: 'absolute', top: '15px', left: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderLeft: '2px solid var(--color-primary)' }} />
+              <div style={{ position: 'absolute', top: '15px', right: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderRight: '2px solid var(--color-primary)' }} />
+              
+              <div style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', textTransform: 'uppercase', letterSpacing: '2px', textAlign: 'center', lineHeight: 1.1 }}>
+                I AM ATTENDING <span style={{ color: 'var(--color-primary)', textShadow: '0 0 15px rgba(14,165,233,0.5)' }}>VALKEYTHON</span>
               </div>
-              <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '4px', marginTop: '0.2rem', fontWeight: 800 }}>
+              <div style={{ 
+                marginTop: '0.75rem', padding: '0.3rem 1.5rem', background: 'rgba(14, 165, 233, 0.1)', 
+                borderRadius: '100px', border: '1px solid rgba(14, 165, 233, 0.3)',
+                fontSize: '0.75rem', fontWeight: 800, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '4px'
+              }}>
                 Arena File: {data.name}
               </div>
             </div>
-          </div>
 
-          {/* MAIN DATA GRID */}
-          <div style={{ flex: 1, padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', zIndex: 10 }}>
-            
-            {/* Top Row: Photo & ID */}
-            <div style={{ display: 'flex', gap: '1rem', height: '260px' }}>
-              {/* Photo Card */}
+            {/* BENTO GRID CONTENT */}
+            <div style={{ flex: 1, padding: '2rem', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gridTemplateRows: 'repeat(10, 1fr)', gap: '1.25rem', zIndex: 10 }}>
+              
+              {/* PHOTO BOX (Large Hero) */}
               <div style={{ 
-                width: '190px', 
-                height: '260px', 
-                borderRadius: '24px', 
-                overflow: 'hidden', 
-                border: '1px solid rgba(255,255,255,0.1)', 
-                position: 'relative',
-                background: '#0f172a'
+                gridColumn: '1 / 6', gridRow: '1 / 6', 
+                background: 'rgba(255,255,255,0.02)', borderRadius: '24px', overflow: 'hidden', 
+                border: '1px solid rgba(255,255,255,0.1)', position: 'relative'
               }}>
                 {data.realPhoto ? (
                   <div style={{
-                    width: '100%',
-                    height: '100%',
+                    width: '100%', height: '100%',
                     backgroundImage: `url(${data.realPhoto})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
+                    backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'
                   }} />
                 ) : (
                   <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <User size={60} color="rgba(255,255,255,0.05)" />
+                    <User size={80} color="rgba(255,255,255,0.05)" />
                   </div>
                 )}
-                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.8)', color: 'white', fontSize: '0.65rem', fontWeight: 900, textAlign: 'center', textTransform: 'uppercase' }}>
-                  Bio-Metric Scan
+                {/* Scanline Effect Overlay */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(rgba(14,165,233,0.1) 50%, transparent 50%)', backgroundSize: '100% 4px', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '0.75rem', background: 'linear-gradient(to top, rgba(14, 165, 233, 0.9), transparent)', color: 'white', fontSize: '0.7rem', fontWeight: 900, textAlign: 'center', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                  Subject Bio-Metric Verify
                 </div>
               </div>
 
-              {/* Identity Details */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.75rem' }}>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.25rem' }}>Real Identity</div>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'white', letterSpacing: '-0.02em' }}>{data.realName}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--color-primary)', fontWeight: 700 }}>{data.designation}</div>
+              {/* COMBINED IDENTITY & AFFILIATION CARD (Space-Optimized) */}
+              <div style={{ 
+                gridColumn: '6 / 13', gridRow: '1 / 6', 
+                background: 'rgba(15, 23, 42, 0.6)', borderRadius: '24px', padding: '1.75rem',
+                border: '1px solid rgba(14, 165, 233, 0.2)', display: 'flex', flexDirection: 'column',
+                position: 'relative', overflow: 'hidden'
+              }}>
+                {/* DECORATIVE: Top-right Barcode */}
+                <div style={{ position: 'absolute', top: '2rem', right: '1.5rem', display: 'flex', gap: '2px', opacity: 0.2 }}>
+                  {[3, 8, 4, 12, 6, 10, 4, 8].map((h, i) => (
+                    <div key={i} style={{ width: '2px', height: `${h}px`, background: 'white' }} />
+                  ))}
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', position: 'relative' }}>
-                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.25rem' }}>Affiliation</div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'white' }}>{data.organization}</div>
-                </div>
-              </div>
-            </div>
 
-            {/* TECHNICAL DOSSIER (Radar + Grid) */}
-            <div style={{ background: 'rgba(14, 165, 233, 0.05)', borderRadius: '32px', border: '1px solid rgba(14, 165, 233, 0.2)', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                {/* Radar Chart */}
-                <div style={{ width: '140px', height: '140px', position: 'relative' }}>
-                  <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 0 5px var(--color-primary-glow))' }}>
-                    <polygon points="50,5 95,38 78,92 22,92 5,38" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-                    <line x1="50" y1="50" x2="50" y2="5" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
-                    <line x1="50" y1="50" x2="95" y2="38" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
-                    <line x1="50" y1="50" x2="78" y2="92" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
-                    <line x1="50" y1="50" x2="22" y2="92" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
-                    <line x1="50" y1="50" x2="5" y2="38" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
-                    <polygon 
-                      points={`50,${data.attribute?.id === 'force' ? 10 : 30} ${data.attribute?.id === 'speed' ? 90 : 70},45 70,80 30,80 ${data.playerClass?.id === 'warden' ? 10 : 30},45`} 
-                      fill="rgba(14, 165, 233, 0.4)" stroke="var(--color-primary)" strokeWidth="2" 
-                    />
-                  </svg>
+                {/* Top Half: Identity */}
+                <div style={{ flex: 1.5, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', zIndex: 5 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--color-primary)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px' }}>Full Identification</div>
+                    <div style={{ fontSize: '0.5rem', color: '#22c55e', border: '1px solid #22c55e', padding: '1px 6px', borderRadius: '4px', fontWeight: 900 }}>SEC_VERIFIED</div>
+                  </div>
+                  <div style={{ fontSize: '2.8rem', fontWeight: 950, color: 'white', letterSpacing: '-0.04em', lineHeight: 0.9, textShadow: '0 0 20px rgba(14,165,233,0.2)' }}>{data.realName}</div>
+                  <div style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.6)', fontWeight: 700, marginTop: '0.5rem' }}>{data.designation}</div>
                 </div>
-                {/* Highlights */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Activity size={16} color="var(--color-primary)" />
-                    <div>
-                      <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Class</div>
+
+                {/* Horizontal Divider */}
+                <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.4), transparent)', margin: '1rem 0' }} />
+
+                {/* Bottom Half: Affiliation & Arena */}
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 5 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Company Name</div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white' }}>{data.organization}</div>
+                  </div>
+                  <div style={{ width: '1px', height: '30px', background: 'rgba(14, 165, 233, 0.3)' }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.55rem', color: 'var(--color-primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Arena Name</div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white', textTransform: 'uppercase' }}>{data.name || 'VALKEYTHON'}</div>
+                  </div>
+                </div>
+
+                {/* DECORATIVE: Background Tech Stream */}
+                <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', fontFamily: 'monospace', fontSize: '0.5rem', color: 'rgba(14, 165, 233, 0.08)', textAlign: 'right', pointerEvents: 'none', lineHeight: 1.2 }}>
+                  AUTH: 0x{Math.random().toString(16).slice(2, 10).toUpperCase()}<br/>
+                  SYS: ACTIVE_NODE_7<br/>
+                  LATENCY: 0.02ms
+                </div>
+
+                {/* Decorative background accent */}
+                <Activity size={80} style={{ position: 'absolute', bottom: '-20px', right: '-20px', opacity: 0.03, color: 'var(--color-primary)' }} />
+              </div>
+
+              {/* DATA CONSTELLATION MODULE */}
+              <div style={{ 
+                gridColumn: '1 / 8', gridRow: '6 / 11', 
+                background: 'rgba(14, 165, 233, 0.03)', borderRadius: '24px', padding: '1.5rem',
+                border: '1px solid rgba(14, 165, 233, 0.2)', position: 'relative', overflow: 'hidden'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 900, color: 'white', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Neural Constellation</div>
+                  <div style={{ fontSize: '0.6rem', color: 'var(--color-primary)', fontWeight: 800 }}>MAPPING: ACTIVE</div>
+                </div>
+                
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  {/* Constellation SVG Visualization */}
+                  <div style={{ width: '150px', height: '150px', position: 'relative' }}>
+                    <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 0 5px rgba(14, 165, 233, 0.3))' }}>
+                      <line x1="20" y1="20" x2="50" y2="50" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
+                      <line x1="50" y1="50" x2="80" y2="30" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
+                      <line x1="50" y1="50" x2="60" y2="80" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
+                      <line x1="20" y1="20" x2="10" y2="60" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
+                      <circle cx="20" cy="20" r="3" fill="var(--color-primary)" />
+                      <circle cx="50" cy="50" r="4" fill="white" />
+                      <circle cx="80" cy="30" r="2.5" fill="var(--color-primary)" />
+                      <circle cx="60" cy="80" r="2.5" fill="var(--color-primary)" />
+                      <circle cx="10" cy="60" r="2" fill="var(--color-primary)" opacity="0.5" />
+                      <text x="25" y="20" fontSize="4" fill="rgba(255,255,255,0.4)" fontWeight="700">[LOC: 1.1]</text>
+                      <text x="55" y="55" fontSize="4" fill="rgba(255,255,255,0.4)" fontWeight="700">[CORE: 0.0]</text>
+                      <text x="85" y="30" fontSize="4" fill="rgba(255,255,255,0.4)" fontWeight="700">[LOC: 2.4]</text>
+                    </svg>
+                  </div>
+
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div style={{ borderLeft: '2px solid var(--color-primary)', paddingLeft: '0.75rem' }}>
+                      <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Archetype Node</div>
                       <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'white' }}>{data.playerClass?.name}</div>
                     </div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <MapPin size={16} color="#8b5cf6" />
-                    <div>
-                      <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Environment</div>
+                    <div style={{ borderLeft: '2px solid #8b5cf6', paddingLeft: '0.75rem' }}>
+                      <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Execution Realm</div>
                       <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'white' }}>{data.environment?.name}</div>
                     </div>
                   </div>
                 </div>
+                <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '15px', height: '15px', borderBottom: '1px solid var(--color-primary)', borderRight: '1px solid var(--color-primary)', opacity: 0.3 }} />
               </div>
-              
-              {/* Secondary Stats Row */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fbbf24', marginBottom: '0.25rem' }}>
-                    <GoalIcon size={14} />
-                    <span style={{ fontSize: '0.55rem', fontWeight: 900, textTransform: 'uppercase' }}>Ambition</span>
-                  </div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white' }}>{data.goal?.name}</div>
-                </div>
-                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#10b981', marginBottom: '0.25rem' }}>
-                    <Database size={14} />
-                    <span style={{ fontSize: '0.55rem', fontWeight: 900, textTransform: 'uppercase' }}>Stat Focus</span>
-                  </div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white' }}>{data.attribute?.name}</div>
-                </div>
-              </div>
-            </div>
 
-            {/* GEAR & QUEST SECTION */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#f43f5e', marginBottom: '0.5rem' }}>
-                  <Sword size={14} />
-                  <span style={{ fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1px' }}>Equipped Weapon</span>
+              {/* LOADOUT & OBJECTIVE */}
+              <div style={{ 
+                gridColumn: '8 / 13', gridRow: '6 / 8', 
+                background: 'rgba(244, 63, 94, 0.05)', borderRadius: '24px', padding: '1rem',
+                border: '1px solid rgba(244, 63, 94, 0.2)', display: 'flex', flexDirection: 'column', justifyContent: 'center'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#f43f5e', marginBottom: '0.25rem' }}>
+                  <Sword size={16} />
+                  <span style={{ fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase' }}>Loadout</span>
                 </div>
                 <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white' }}>{data.weapon?.name}</div>
               </div>
-              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+
+              <div style={{ 
+                gridColumn: '8 / 13', gridRow: '8 / 11', 
+                background: 'rgba(251, 191, 36, 0.05)', borderRadius: '24px', padding: '1.25rem',
+                border: '1px solid rgba(251, 191, 36, 0.2)', display: 'flex', flexDirection: 'column', justifyContent: 'center'
+              }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fbbf24', marginBottom: '0.5rem' }}>
-                  <Zap size={14} />
-                  <span style={{ fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1px' }}>Current Quest</span>
+                  <Zap size={16} />
+                  <span style={{ fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase' }}>Mission Goal</span>
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white' }}>{data.battle?.title}</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 900, color: 'white', lineHeight: 1.2 }}>{data.battle?.title}</div>
+                <div style={{ marginTop: '0.75rem', fontSize: '0.6rem', color: 'rgba(251, 191, 36, 0.5)', fontWeight: 800, textTransform: 'uppercase' }}>STATUS: ACTIVE</div>
               </div>
+
             </div>
 
-          </div>
-
-          {/* FOOTER: BRANDING & PARTNERS */}
-          <div style={{
-            background: 'rgba(15, 23, 42, 0.9)',
-            padding: '1.5rem 2rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1rem',
-            borderTop: '2px solid rgba(14, 165, 233, 0.2)',
-            zIndex: 10
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', width: '100%', justifyContent: 'center' }}>
-              <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '28px' }} crossOrigin="anonymous" />
-              <div style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--color-primary)', opacity: 0.8 }}>X</div>
-              <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '34px', borderRadius: '6px' }} crossOrigin="anonymous" />
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', width: '100%' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.3rem' }}>Community Partner</div>
-                <div style={{ background: 'white', padding: '0.3rem', borderRadius: '4px' }}>
-                  <img src={`${import.meta.env.BASE_URL}logos/Juicer Technology.jpg`} alt="Juicer" style={{ height: '18px' }} crossOrigin="anonymous" />
-                </div>
+            {/* FOOTER: BRANDING & PARTNERS */}
+            <div style={{
+              background: '#020617',
+              padding: '2.5rem 2rem',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1.5rem',
+              borderTop: '1px solid rgba(14, 165, 233, 0.3)',
+              zIndex: 10,
+              position: 'relative'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', width: '100%', justifyContent: 'center' }}>
+                <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '32px' }} crossOrigin="anonymous" />
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'rgba(255,255,255,0.1)' }}>X</div>
+                <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '40px', borderRadius: '8px' }} crossOrigin="anonymous" />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div style={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.3rem' }}>Platform Partner</div>
-                <div style={{ background: 'white', padding: '0.3rem', borderRadius: '4px' }}>
-                  <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="Go Avo" style={{ height: '18px' }} crossOrigin="anonymous" />
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', width: '100%', maxWidth: '400px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.6rem', fontWeight: 800 }}>Community</div>
+                  <div style={{ background: 'white', padding: '0.5rem', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={`${import.meta.env.BASE_URL}logos/Juicer Technology.jpg`} alt="Juicer" style={{ height: '24px' }} crossOrigin="anonymous" />
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.6rem', fontWeight: 800 }}>Platform</div>
+                  <div style={{ background: 'white', padding: '0.5rem', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="Go Avo" style={{ height: '24px' }} crossOrigin="anonymous" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -236,17 +313,17 @@ export default function PlayerCard({ data, onRestart }) {
       </div>
 
       {/* Actions */}
-      <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+      <div style={{ display: 'flex', gap: '1.25rem', marginTop: '2rem' }}>
         <button className="btn" onClick={onRestart}>
-          <RefreshCcw size={18} /> Reset File
+          <RefreshCcw size={20} /> Reboot Profile
         </button>
         <button
           className="btn btn-primary"
           onClick={handleDownload}
           disabled={isGenerating}
-          style={{ minWidth: '200px' }}
+          style={{ minWidth: '240px' }}
         >
-          {isGenerating ? 'Exporting...' : <><Download size={18} /> Download Dossier</>}
+          {isGenerating ? 'Syncing...' : <><Download size={20} /> Generate Identity</>}
         </button>
       </div>
     </div>
