@@ -41,6 +41,12 @@ body {
   flex-direction: column;
 }
 
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+}
+
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
