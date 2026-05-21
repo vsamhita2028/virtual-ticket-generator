@@ -124,8 +124,11 @@ export default function PlayerCard({ data, onRestart }) {
               <div style={{ position: 'absolute', top: '15px', left: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderLeft: '2px solid var(--color-primary)' }} />
               <div style={{ position: 'absolute', top: '15px', right: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderRight: '2px solid var(--color-primary)' }} />
 
-              <div style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', textTransform: 'uppercase', letterSpacing: '2px', textAlign: 'center', lineHeight: 1.1 }}>
-                I AM ATTENDING <span style={{ color: 'var(--color-primary)', textShadow: '0 0 15px rgba(14,165,233,0.5)' }}>VALKEYTHON</span>
+              <div style={{ textAlign: 'center', lineHeight: 1.1 }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '0.4rem' }}>I AM ATTENDING</div>
+                <div style={{ fontSize: 'clamp(1.2rem, 4cqi, 1.9rem)', fontWeight: 950, color: 'white', textTransform: 'uppercase', letterSpacing: '2px', whiteSpace: 'nowrap' }}>
+                  <span style={{ color: 'var(--color-primary)', textShadow: '0 0 15px rgba(14,165,233,0.5)' }}>BUILD BEYOND LIMITS</span>
+                </div>
               </div>
               <div style={{
                 marginTop: '0.75rem', padding: '0.3rem 1.5rem', background: 'rgba(14, 165, 233, 0.1)',
@@ -197,7 +200,7 @@ export default function PlayerCard({ data, onRestart }) {
                 {/* Bottom Half: Affiliation & Arena */}
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 5, overflow: 'hidden' }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Company Name</div>
+                    <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>College / Company</div>
                     <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.2rem)', fontWeight: 900, color: 'white', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.organization}</div>
                   </div>
                   <div style={{ width: '1px', height: '30px', background: 'rgba(14, 165, 233, 0.3)', flexShrink: 0 }} />
@@ -293,32 +296,44 @@ export default function PlayerCard({ data, onRestart }) {
             {/* FOOTER: BRANDING & PARTNERS */}
             <div style={{
               background: '#020617',
-              padding: '2.5rem 2rem',
+              padding: '1.5rem 2rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '1.5rem',
+              justifyContent: 'center',
+              gap: '0',
               borderTop: '1px solid rgba(14, 165, 233, 0.3)',
               zIndex: 10,
-              position: 'relative'
+              position: 'relative',
+              flex: 1
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', width: '100%', justifyContent: 'center' }}>
-                <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '32px' }} />
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'rgba(255,255,255,0.1)' }}>X</div>
-                <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '40px', borderRadius: '8px' }} />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', width: '100%', maxWidth: '400px' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.6rem', fontWeight: 800 }}>Community</div>
-                  <div style={{ background: 'white', padding: '0.5rem', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/Juicer Technology.jpg`} alt="Juicer" style={{ height: '24px' }} />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '100%', gap: '0.75rem' }}>
+                {/* Powered by Valkey */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+                  <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Powered by</div>
+                  <div style={{ height: '36px', display: 'flex', alignItems: 'center' }}>
+                    <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '28px' }} />
                   </div>
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.6rem', fontWeight: 800 }}>Platform</div>
-                  <div style={{ background: 'white', padding: '0.5rem', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="Go Avo" style={{ height: '24px' }} />
+                {/* Hosted by React Hyderabad */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+                  <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Hosted by</div>
+                  <div style={{ height: '36px', display: 'flex', alignItems: 'center' }}>
+                    <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '36px', borderRadius: '6px' }} />
+                  </div>
+                </div>
+                {/* Community Partner */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+                  <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Community Partner</div>
+                  <div style={{ height: '36px', display: 'flex', alignItems: 'center', background: 'white', padding: '0.3rem 0.6rem', borderRadius: '8px' }}>
+                    <img src={`${import.meta.env.BASE_URL}logos/JuicerTechnology.jpg`} alt="Juicer Technology" style={{ height: '22px' }} />
+                  </div>
+                </div>
+                {/* Platform Partner */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+                  <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Platform Partner</div>
+                  <div style={{ height: '36px', display: 'flex', alignItems: 'center', background: 'white', padding: '0.3rem 0.6rem', borderRadius: '8px' }}>
+                    <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="GoAvo" style={{ height: '22px' }} />
                   </div>
                 </div>
               </div>
