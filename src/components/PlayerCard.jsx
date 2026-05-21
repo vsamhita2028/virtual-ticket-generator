@@ -64,10 +64,10 @@ export default function PlayerCard({ data, onRestart }) {
         <span className="text-gradient">Arena Identity Initialized</span>
       </h2>
 
-      <div style={{ 
-        width: '100%', 
-        display: 'flex', 
-        justifyContent: 'center', 
+      <div style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
         padding: '1rem',
         overflow: 'visible'
       }}>
@@ -80,7 +80,7 @@ export default function PlayerCard({ data, onRestart }) {
           transition: 'transform 0.3s ease',
           marginBottom: '2rem'
         }}>
-          
+
           {/* VIRTUAL TICKET CARD (CYBER BENTO - CLEANED) */}
           <div
             ref={cardRef}
@@ -123,14 +123,15 @@ export default function PlayerCard({ data, onRestart }) {
               {/* Corner Accents */}
               <div style={{ position: 'absolute', top: '15px', left: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderLeft: '2px solid var(--color-primary)' }} />
               <div style={{ position: 'absolute', top: '15px', right: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderRight: '2px solid var(--color-primary)' }} />
-              
+
               <div style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', textTransform: 'uppercase', letterSpacing: '2px', textAlign: 'center', lineHeight: 1.1 }}>
                 I AM ATTENDING <span style={{ color: 'var(--color-primary)', textShadow: '0 0 15px rgba(14,165,233,0.5)' }}>VALKEYTHON</span>
               </div>
-              <div style={{ 
-                marginTop: '0.75rem', padding: '0.3rem 1.5rem', background: 'rgba(14, 165, 233, 0.1)', 
+              <div style={{
+                marginTop: '0.75rem', padding: '0.3rem 1.5rem', background: 'rgba(14, 165, 233, 0.1)',
                 borderRadius: '100px', border: '1px solid rgba(14, 165, 233, 0.3)',
-                fontSize: '0.75rem', fontWeight: 800, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '4px'
+                fontSize: '0.7rem', fontWeight: 800, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '3px',
+                maxWidth: '90%', wordBreak: 'break-word', overflowWrap: 'anywhere', textAlign: 'center'
               }}>
                 Arena File: {data.name}
               </div>
@@ -138,11 +139,11 @@ export default function PlayerCard({ data, onRestart }) {
 
             {/* BENTO GRID CONTENT */}
             <div style={{ flex: 1, padding: '2rem', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gridTemplateRows: 'repeat(10, 1fr)', gap: '1.25rem', zIndex: 10 }}>
-              
+
               {/* PHOTO BOX (Large Hero) */}
-              <div style={{ 
-                gridColumn: '1 / 6', gridRow: '1 / 6', 
-                background: 'rgba(255,255,255,0.02)', borderRadius: '24px', overflow: 'hidden', 
+              <div style={{
+                gridColumn: '1 / 6', gridRow: '1 / 6',
+                background: 'rgba(255,255,255,0.02)', borderRadius: '24px', overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.1)', position: 'relative'
               }}>
                 {data.realPhoto ? (
@@ -167,8 +168,8 @@ export default function PlayerCard({ data, onRestart }) {
               </div>
 
               {/* COMBINED IDENTITY & AFFILIATION CARD (Space-Optimized) */}
-              <div style={{ 
-                gridColumn: '6 / 13', gridRow: '1 / 6', 
+              <div style={{
+                gridColumn: '6 / 13', gridRow: '1 / 6',
                 background: 'rgba(15, 23, 42, 0.6)', borderRadius: '24px', padding: '1.75rem',
                 border: '1px solid rgba(14, 165, 233, 0.2)', display: 'flex', flexDirection: 'column',
                 position: 'relative', overflow: 'hidden'
@@ -186,30 +187,30 @@ export default function PlayerCard({ data, onRestart }) {
                     <div style={{ fontSize: '0.65rem', color: 'var(--color-primary)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px' }}>Full Identification</div>
                     <div style={{ fontSize: '0.5rem', color: '#22c55e', border: '1px solid #22c55e', padding: '1px 6px', borderRadius: '4px', fontWeight: 900 }}>SEC_VERIFIED</div>
                   </div>
-                  <div style={{ fontSize: '2.8rem', fontWeight: 950, color: 'white', letterSpacing: '-0.04em', lineHeight: 0.9, textShadow: '0 0 20px rgba(14,165,233,0.2)' }}>{data.realName}</div>
-                  <div style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.6)', fontWeight: 700, marginTop: '0.5rem' }}>{data.designation}</div>
+                  <div style={{ fontSize: 'clamp(1.4rem, 4.5cqi, 2.8rem)', fontWeight: 950, color: 'white', letterSpacing: '-0.04em', lineHeight: 1.05, textShadow: '0 0 20px rgba(14,165,233,0.2)', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.realName}</div>
+                  <div style={{ fontSize: 'clamp(0.75rem, 2cqi, 1.1rem)', color: 'rgba(255,255,255,0.6)', fontWeight: 700, marginTop: '0.5rem', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.designation}</div>
                 </div>
 
                 {/* Horizontal Divider */}
                 <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.4), transparent)', margin: '1rem 0' }} />
 
                 {/* Bottom Half: Affiliation & Arena */}
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 5 }}>
-                  <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 5, overflow: 'hidden' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Company Name</div>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white' }}>{data.organization}</div>
+                    <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.2rem)', fontWeight: 900, color: 'white', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.organization}</div>
                   </div>
-                  <div style={{ width: '1px', height: '30px', background: 'rgba(14, 165, 233, 0.3)' }} />
-                  <div style={{ flex: 1 }}>
+                  <div style={{ width: '1px', height: '30px', background: 'rgba(14, 165, 233, 0.3)', flexShrink: 0 }} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '0.55rem', color: 'var(--color-primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Arena Name</div>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white', textTransform: 'uppercase' }}>{data.name || 'VALKEYTHON'}</div>
+                    <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.2rem)', fontWeight: 900, color: 'white', textTransform: 'uppercase', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.name || 'VALKEYTHON'}</div>
                   </div>
                 </div>
 
                 {/* DECORATIVE: Background Tech Stream */}
                 <div style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', fontFamily: 'monospace', fontSize: '0.5rem', color: 'rgba(14, 165, 233, 0.08)', textAlign: 'right', pointerEvents: 'none', lineHeight: 1.2 }}>
-                  AUTH: 0x{Math.random().toString(16).slice(2, 10).toUpperCase()}<br/>
-                  SYS: ACTIVE_NODE_7<br/>
+                  AUTH: 0x{Math.random().toString(16).slice(2, 10).toUpperCase()}<br />
+                  SYS: ACTIVE_NODE_7<br />
                   LATENCY: 0.02ms
                 </div>
 
@@ -218,8 +219,8 @@ export default function PlayerCard({ data, onRestart }) {
               </div>
 
               {/* DATA CONSTELLATION MODULE */}
-              <div style={{ 
-                gridColumn: '1 / 8', gridRow: '6 / 11', 
+              <div style={{
+                gridColumn: '1 / 8', gridRow: '6 / 11',
                 background: 'rgba(14, 165, 233, 0.03)', borderRadius: '24px', padding: '1.5rem',
                 border: '1px solid rgba(14, 165, 233, 0.2)', position: 'relative', overflow: 'hidden'
               }}>
@@ -227,7 +228,7 @@ export default function PlayerCard({ data, onRestart }) {
                   <div style={{ fontSize: '0.8rem', fontWeight: 900, color: 'white', textTransform: 'uppercase', letterSpacing: '1.5px' }}>Neural Constellation</div>
                   <div style={{ fontSize: '0.6rem', color: 'var(--color-primary)', fontWeight: 800 }}>MAPPING: ACTIVE</div>
                 </div>
-                
+
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                   {/* Constellation SVG Visualization */}
                   <div style={{ width: '150px', height: '150px', position: 'relative' }}>
@@ -262,8 +263,8 @@ export default function PlayerCard({ data, onRestart }) {
               </div>
 
               {/* LOADOUT & OBJECTIVE */}
-              <div style={{ 
-                gridColumn: '8 / 13', gridRow: '6 / 8', 
+              <div style={{
+                gridColumn: '8 / 13', gridRow: '6 / 8',
                 background: 'rgba(244, 63, 94, 0.05)', borderRadius: '24px', padding: '1rem',
                 border: '1px solid rgba(244, 63, 94, 0.2)', display: 'flex', flexDirection: 'column', justifyContent: 'center'
               }}>
@@ -274,8 +275,8 @@ export default function PlayerCard({ data, onRestart }) {
                 <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'white' }}>{data.weapon?.name}</div>
               </div>
 
-              <div style={{ 
-                gridColumn: '8 / 13', gridRow: '8 / 11', 
+              <div style={{
+                gridColumn: '8 / 13', gridRow: '8 / 11',
                 background: 'rgba(251, 191, 36, 0.05)', borderRadius: '24px', padding: '1.25rem',
                 border: '1px solid rgba(251, 191, 36, 0.2)', display: 'flex', flexDirection: 'column', justifyContent: 'center'
               }}>
@@ -302,7 +303,7 @@ export default function PlayerCard({ data, onRestart }) {
               position: 'relative'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', width: '100%', justifyContent: 'center' }}>
-                 <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '32px' }} />
+                <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '32px' }} />
                 <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'rgba(255,255,255,0.1)' }}>X</div>
                 <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '40px', borderRadius: '8px' }} />
               </div>

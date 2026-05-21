@@ -37,7 +37,7 @@ export default function ClassSelection({ onBack, onSelect, selected, onNext }) {
     <div className="animate-fade-in p-4">
       <h2 className="text-center mb-8" style={{ fontSize: '2rem', fontWeight: 800 }}>Choose Your <span className="text-gradient">Coding Class</span></h2>
       
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
         {CLASSES.map((item) => (
           <button
             key={item.id}
