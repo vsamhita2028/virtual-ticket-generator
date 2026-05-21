@@ -2,28 +2,36 @@ import { useState } from 'react';
 import ProfileUpload from './components/ProfileUpload';
 import NameInput from './components/NameInput';
 import ClassSelection from './components/ClassSelection';
-import EnvironmentSelection from './components/EnvironmentSelection';
-import WeaponSelection from './components/WeaponSelection';
-import AttributeFocus from './components/AttributeFocus';
-import AchievementGoal from './components/AchievementGoal';
 import BattleSelection from './components/BattleSelection';
 import PlayerCard from './components/PlayerCard';
 
+// Import data lists to pick random values from
+import { ENVIRONMENTS } from './components/EnvironmentSelection';
+import { weapons } from './components/WeaponSelection';
+import { ATTRIBUTES } from './components/AttributeFocus';
+import { GOALS } from './components/AchievementGoal';
+
+const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+const getRandomizedData = () => ({
+  environment: getRandomItem(ENVIRONMENTS),
+  weapon: getRandomItem(weapons),
+  attribute: getRandomItem(ATTRIBUTES),
+  goal: getRandomItem(GOALS)
+});
+
 function App() {
   const [step, setStep] = useState(1);
-  const [data, setData] = useState({
+  const [data, setData] = useState(() => ({
     realPhoto: null,
     realName: '',
     designation: '',
     organization: '',
     name: '',
     playerClass: null,
-    environment: null,
-    weapon: null,
-    attribute: null,
-    goal: null,
-    battle: null
-  });
+    battle: null,
+    ...getRandomizedData()
+  }));
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
@@ -50,22 +58,6 @@ function App() {
     updateData('playerClass', playerClass);
   };
 
-  const handleEnvironmentSelect = (environment) => {
-    updateData('environment', environment);
-  };
-
-  const handleWeaponSelect = (weapon) => {
-    updateData('weapon', weapon);
-  };
-
-  const handleAttributeSelect = (attribute) => {
-    updateData('attribute', attribute);
-  };
-
-  const handleGoalSelect = (goal) => {
-    updateData('goal', goal);
-  };
-
   const handleBattleSelect = (battle) => {
     updateData('battle', battle);
   };
@@ -73,8 +65,8 @@ function App() {
   const restart = () => {
     setData({ 
       realPhoto: null, realName: '', designation: '', organization: '', 
-      name: '', playerClass: null, environment: null, weapon: null, 
-      attribute: null, goal: null, battle: null 
+      name: '', playerClass: null, battle: null,
+      ...getRandomizedData()
     });
     setStep(1);
   };
@@ -101,7 +93,7 @@ function App() {
           gap: '0.5rem',
           background: 'rgba(2, 6, 23, 0.4)'
         }}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+          {[1, 2, 3, 4, 5].map((num) => (
             <div key={num} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <div 
                 style={{ 
@@ -124,7 +116,7 @@ function App() {
                   </div>
                 )}
               </div>
-              {num < 9 && <div style={{ width: '15px', height: '1px', background: 'rgba(255,255,255,0.05)' }} />}
+              {num < 5 && <div style={{ width: '15px', height: '1px', background: 'rgba(255,255,255,0.05)' }} />}
             </div>
           ))}
         </div>
@@ -133,12 +125,8 @@ function App() {
           {step === 1 && <ProfileUpload onNext={handleProfileSubmit} initialData={data} />}
           {step === 2 && <NameInput onBack={prevStep} onSubmit={handleNameSubmit} initialName={data.name} />}
           {step === 3 && <ClassSelection onBack={prevStep} onSelect={handleClassSelect} selected={data.playerClass?.id} onNext={nextStep} />}
-          {step === 4 && <EnvironmentSelection onBack={prevStep} onSelect={handleEnvironmentSelect} selected={data.environment?.id} onNext={nextStep} />}
-          {step === 5 && <WeaponSelection onBack={prevStep} onSelect={handleWeaponSelect} selected={data.weapon?.id} onNext={nextStep} />}
-          {step === 6 && <AttributeFocus onBack={prevStep} onSelect={handleAttributeSelect} selected={data.attribute?.id} onNext={nextStep} />}
-          {step === 7 && <AchievementGoal onBack={prevStep} onSelect={handleGoalSelect} selected={data.goal?.id} onNext={nextStep} />}
-          {step === 8 && <BattleSelection onBack={prevStep} onSelect={handleBattleSelect} selected={data.battle?.id} onNext={nextStep} />}
-          {step === 9 && <PlayerCard data={data} onRestart={restart} />}
+          {step === 4 && <BattleSelection onBack={prevStep} onSelect={handleBattleSelect} selected={data.battle?.id} onNext={nextStep} />}
+          {step === 5 && <PlayerCard data={data} onRestart={restart} />}
         </div>
       </main>
     </div>

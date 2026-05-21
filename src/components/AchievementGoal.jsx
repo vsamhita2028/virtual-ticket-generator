@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trophy, Flame, Rocket, Gem, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const GOALS = [
+export const GOALS = [
   {
     id: 'clean',
     name: 'Clean Code King',

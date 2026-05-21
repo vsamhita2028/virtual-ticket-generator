@@ -151,3 +151,38 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.card-actions {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.card-actions .btn {
+  min-width: 180px;
+}
+
+.card-actions .btn-primary {
+  min-width: 240px;
+}
+
+@media (max-width: 640px) {
+  .card-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  .card-actions .btn {
+    width: 100%;
+    max-width: 280px;
+    min-width: unset;
+  }
+  .card-actions .btn-primary {
+    width: 100%;
+    max-width: 280px;
+    min-width: unset;
+  }
+}

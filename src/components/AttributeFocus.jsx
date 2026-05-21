@@ -1,7 +1,7 @@
 import React from 'react';
 import { Swords, Activity, Brain, Clover, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const ATTRIBUTES = [
+export const ATTRIBUTES = [
   {
     id: 'force',
     name: 'Strength',

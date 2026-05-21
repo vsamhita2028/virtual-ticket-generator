@@ -32,9 +32,9 @@ export default function ProfileUpload({ onNext, initialData }) {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '500px', margin: '0 auto', padding: '1rem 0' }}>
-      <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Transforming for ValkeyThon</h2>
+      <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Tell Us About Yourself</h2>
       <p className="text-center mb-8" style={{ color: 'var(--color-text-muted)' }}>
-        Upload your credentials before stepping into the arena.
+        Upload a photo and fill in your details to create your hackathon ticket.
       </p>
 
       <form onSubmit={handleSubmit}>
@@ -80,7 +80,7 @@ export default function ProfileUpload({ onNext, initialData }) {
           <input
             type="text"
             className="input-field"
-            placeholder="Name"
+            placeholder="Your Full Name"
             value={realName}
             onChange={(e) => setRealName(e.target.value)}
           />
@@ -90,7 +90,7 @@ export default function ProfileUpload({ onNext, initialData }) {
           <input
             type="text"
             className="input-field"
-            placeholder="Designation (e.g. Developer, Student)"
+            placeholder="What do you do? (e.g., Student, Developer, Designer)"
             value={designation}
             onChange={(e) => setDesignation(e.target.value)}
           />
@@ -100,7 +100,7 @@ export default function ProfileUpload({ onNext, initialData }) {
           <input
             type="text"
             className="input-field"
-            placeholder="Company or College Name"
+            placeholder="College or Company Name"
             value={organization}
             onChange={(e) => setOrganization(e.target.value)}
           />
@@ -108,7 +108,7 @@ export default function ProfileUpload({ onNext, initialData }) {
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <button type="submit" className="btn btn-primary" disabled={!isFormValid}>
-            Start Transformation <ArrowRight size={18} />
+            Next Step <ArrowRight size={18} />
           </button>
         </div>
       </form>

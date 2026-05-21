@@ -5,28 +5,28 @@ const CLASSES = [
   {
     id: 'warrior',
     name: 'Cyber Warrior',
-    description: 'Frontline attacker, masters of brute force code.',
+    description: 'Builds code fast and powers through challenges.',
     icon: <Shield size={32} />,
     color: '#f43f5e'
   },
   {
     id: 'mage',
     name: 'Tech Mage',
-    description: 'Masters of high-level abstractions and complex logic.',
+    description: 'Loves writing smart, complex logic and clean code.',
     icon: <Cpu size={32} />,
     color: '#0ea5e9'
   },
   {
     id: 'stalker',
     name: 'Data Stalker',
-    description: 'Invisible hunters of bugs and hidden data patterns.',
+    description: 'Great at finding bugs and tracking down data patterns.',
     icon: <Target size={32} />,
     color: '#10b981'
   },
   {
     id: 'warden',
     name: 'System Warden',
-    description: 'Shield of the arena, protecting core systems.',
+    description: 'Keeps systems safe, stable, and working smoothly.',
     icon: <Zap size={32} />,
     color: '#fbbf24'
   }
@@ -35,7 +35,7 @@ const CLASSES = [
 export default function ClassSelection({ onBack, onSelect, selected, onNext }) {
   return (
     <div className="animate-fade-in p-4">
-      <h2 className="text-center mb-8" style={{ fontSize: '2rem', fontWeight: 800 }}>Choose Your <span className="text-gradient">Class</span></h2>
+      <h2 className="text-center mb-8" style={{ fontSize: '2rem', fontWeight: 800 }}>Choose Your <span className="text-gradient">Coding Class</span></h2>
       
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
         {CLASSES.map((item) => (
@@ -76,7 +76,7 @@ export default function ClassSelection({ onBack, onSelect, selected, onNext }) {
           onClick={onNext}
           style={{ minWidth: '160px' }}
         >
-          Initialize <ChevronRight size={20} />
+          Next <ChevronRight size={20} />
         </button>
       </div>
     </div>

@@ -32,15 +32,25 @@ export default function PlayerCard({ data, onRestart }) {
         backgroundColor: '#020617',
         scale: 3,
         useCORS: true,
-        allowTaint: true,
+        allowTaint: false,
         logging: false,
+        onclone: (clonedDoc) => {
+          const card = clonedDoc.getElementById('virtual-ticket-card');
+          if (card && card.parentElement) {
+            card.parentElement.style.transform = 'none';
+            card.parentElement.style.width = '600px';
+            card.parentElement.style.height = '1000px';
+          }
+        }
       });
 
       const image = canvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
       link.href = image;
-      link.download = `valkeydossier-${data.name.toLowerCase()}.png`;
+      link.download = `valkeydossier-${(data.name || 'ticket').toLowerCase()}.png`;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
     } catch (err) {
       console.error('Error generating image:', err);
     } finally {
@@ -74,6 +84,7 @@ export default function PlayerCard({ data, onRestart }) {
           {/* VIRTUAL TICKET CARD (CYBER BENTO - CLEANED) */}
           <div
             ref={cardRef}
+            id="virtual-ticket-card"
             style={{
               width: '600px',
               height: '1000px',
@@ -136,9 +147,12 @@ export default function PlayerCard({ data, onRestart }) {
               }}>
                 {data.realPhoto ? (
                   <div style={{
-                    width: '100%', height: '100%',
-                    backgroundImage: `url(${data.realPhoto})`,
-                    backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `url("${data.realPhoto}")`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
                   }} />
                 ) : (
                   <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -217,7 +231,7 @@ export default function PlayerCard({ data, onRestart }) {
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                   {/* Constellation SVG Visualization */}
                   <div style={{ width: '150px', height: '150px', position: 'relative' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 0 5px rgba(14, 165, 233, 0.3))' }}>
+                    <svg width="150" height="150" viewBox="0 0 100 100" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 0 5px rgba(14, 165, 233, 0.3))' }}>
                       <line x1="20" y1="20" x2="50" y2="50" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
                       <line x1="50" y1="50" x2="80" y2="30" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
                       <line x1="50" y1="50" x2="60" y2="80" stroke="var(--color-primary)" strokeWidth="0.5" opacity="0.4" />
@@ -288,22 +302,22 @@ export default function PlayerCard({ data, onRestart }) {
               position: 'relative'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', width: '100%', justifyContent: 'center' }}>
-                <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '32px' }} crossOrigin="anonymous" />
+                 <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '32px' }} />
                 <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'rgba(255,255,255,0.1)' }}>X</div>
-                <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '40px', borderRadius: '8px' }} crossOrigin="anonymous" />
+                <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '40px', borderRadius: '8px' }} />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', width: '100%', maxWidth: '400px' }}>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.6rem', fontWeight: 800 }}>Community</div>
                   <div style={{ background: 'white', padding: '0.5rem', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/Juicer Technology.jpg`} alt="Juicer" style={{ height: '24px' }} crossOrigin="anonymous" />
+                    <img src={`${import.meta.env.BASE_URL}logos/Juicer Technology.jpg`} alt="Juicer" style={{ height: '24px' }} />
                   </div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '0.6rem', fontWeight: 800 }}>Platform</div>
                   <div style={{ background: 'white', padding: '0.5rem', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="Go Avo" style={{ height: '24px' }} crossOrigin="anonymous" />
+                    <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="Go Avo" style={{ height: '24px' }} />
                   </div>
                 </div>
               </div>
@@ -313,7 +327,7 @@ export default function PlayerCard({ data, onRestart }) {
       </div>
 
       {/* Actions */}
-      <div style={{ display: 'flex', gap: '1.25rem', marginTop: '2rem' }}>
+      <div className="card-actions">
         <button className="btn" onClick={onRestart}>
           <RefreshCcw size={20} /> Reboot Profile
         </button>
@@ -321,7 +335,6 @@ export default function PlayerCard({ data, onRestart }) {
           className="btn btn-primary"
           onClick={handleDownload}
           disabled={isGenerating}
-          style={{ minWidth: '240px' }}
         >
           {isGenerating ? 'Syncing...' : <><Download size={20} /> Generate Identity</>}
         </button>

@@ -5,25 +5,25 @@ const battles = [
   {
     id: 'ai-accessibility',
     title: 'AI for Accessibility',
-    description: 'Build solutions that empower individuals with disabilities using generative AI.',
+    description: 'Build tools to help people with disabilities using AI.',
     color: '#10b981' // emerald
   },
   {
     id: 'sustainable-tech',
     title: 'Sustainable Tech',
-    description: 'Develop tools to track, reduce, or optimize carbon footprints for enterprises.',
+    description: 'Create apps to track and reduce pollution or carbon footprints.',
     color: '#0ea5e9' // sky blue
   },
   {
     id: 'future-finance',
     title: 'Future of Finance',
-    description: 'Create decentralized or AI-driven financial tools for the unbanked.',
+    description: 'Design easy financial and payment tools for everyone.',
     color: '#f59e0b' // amber
   },
   {
     id: 'health-tech',
     title: 'Next-Gen HealthTech',
-    description: 'Innovate remote patient monitoring or predictive health analytics.',
+    description: 'Create systems to monitor health and analyze medical data.',
     color: '#f43f5e' // rose
   }
 ];
@@ -31,9 +31,9 @@ const battles = [
 export default function BattleSelection({ onBack, onSelect, selected, onNext }) {
   return (
     <div className="animate-fade-in">
-      <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Choose Your Battle</h2>
+      <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Choose Your Track</h2>
       <p className="text-center mb-8" style={{ color: 'var(--color-text-muted)' }}>
-        Select the hackathon track you will conquer
+        Select the hackathon track you want to work on.
       </p>
 
       <div style={{

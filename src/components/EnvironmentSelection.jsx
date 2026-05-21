@@ -1,7 +1,7 @@
 import React from 'react';
 import { Cloud, HardDrive, Share2, Binary, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const ENVIRONMENTS = [
+export const ENVIRONMENTS = [
   {
     id: 'valkey',
     name: 'Valkey Core',

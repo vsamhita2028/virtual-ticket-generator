@@ -13,9 +13,9 @@ export default function NameInput({ onBack, onSubmit, initialName }) {
 
   return (
     <div className="animate-fade-in" style={{ maxWidth: '500px', margin: '0 auto', padding: '2rem 0' }}>
-      <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Identify Yourself</h2>
+      <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Choose Your Nickname</h2>
       <p className="text-center mb-8" style={{ color: 'var(--color-text-muted)' }}>
-        Enter your handle for the leaderboard
+        Enter a cool gaming nickname or codename for your ticket.
       </p>
 
       <form onSubmit={handleSubmit}>
@@ -23,7 +23,7 @@ export default function NameInput({ onBack, onSubmit, initialName }) {
           <input
             type="text"
             className="input-field"
-            placeholder="e.g. Neo, Trinity, ZeroCool"
+            placeholder="e.g., Neo, PixelCoder, Shadow"
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
@@ -37,7 +37,7 @@ export default function NameInput({ onBack, onSubmit, initialName }) {
           </button>
           
           <button type="submit" className="btn btn-primary" disabled={!name.trim()}>
-            Continue <ArrowRight size={18} />
+            Next <ArrowRight size={18} />
           </button>
         </div>
       </form>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Coffee, ScrollText, Keyboard, Bird, Headphones, ArrowLeft, ArrowRight, Glasses, BatteryCharging, Terminal } from 'lucide-react';
 
-const weapons = [
+export const weapons = [
   {
     id: 'coffee',
     name: 'Midnight Code Brew',
