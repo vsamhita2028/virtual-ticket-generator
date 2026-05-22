@@ -13,9 +13,86 @@ const toDataURL = (url) => fetch(url)
 
 export default function PlayerCard({ data, onRestart }) {
   const cardRef = useRef(null);
+  const photoContainerRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [scale, setScale] = useState(1);
   const [logoDataUrls, setLogoDataUrls] = useState({});
+  const [containerSize, setContainerSize] = useState(null);
+  const [imgSize, setImgSize] = useState(null);
+
+  // Recalculate sizes when data.realPhoto changes
+  useEffect(() => {
+    if (!data.realPhoto) return;
+    const img = new Image();
+    img.src = data.realPhoto;
+    img.onload = () => {
+      setImgSize({
+        width: img.naturalWidth,
+        height: img.naturalHeight
+      });
+      if (photoContainerRef.current) {
+        setContainerSize({
+          width: photoContainerRef.current.clientWidth,
+          height: photoContainerRef.current.clientHeight
+        });
+      }
+    };
+  }, [data.realPhoto]);
+
+  // Handle image load event for inline img
+  const handleImageLoad = (e) => {
+    const img = e.currentTarget;
+    const container = photoContainerRef.current || img.parentElement;
+    if (container) {
+      setContainerSize({
+        width: container.clientWidth,
+        height: container.clientHeight
+      });
+    }
+    setImgSize({
+      width: img.naturalWidth,
+      height: img.naturalHeight
+    });
+  };
+
+  // Helper to compute image style simulating 'object-fit: cover'
+  const getImgStyle = () => {
+    if (!containerSize || !imgSize) {
+      return {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        display: 'block'
+      };
+    }
+
+    const R_c = containerSize.width / containerSize.height;
+    const R_i = imgSize.width / imgSize.height;
+
+    if (R_i > R_c) {
+      const widthPercent = (R_i / R_c) * 100;
+      return {
+        position: 'absolute',
+        width: `${widthPercent}%`,
+        height: '100%',
+        left: `${(100 - widthPercent) / 2}%`,
+        top: '0%',
+        objectFit: 'cover',
+        display: 'block'
+      };
+    } else {
+      const heightPercent = (R_c / R_i) * 100;
+      return {
+        position: 'absolute',
+        width: '100%',
+        height: `${heightPercent}%`,
+        left: '0%',
+        top: `${(100 - heightPercent) / 2}%`,
+        objectFit: 'cover',
+        display: 'block'
+      };
+    }
+  };
 
   useEffect(() => {
     const logos = {
@@ -176,23 +253,24 @@ export default function PlayerCard({ data, onRestart }) {
             </div>
 
             {/* BENTO GRID CONTENT */}
-            <div style={{ flex: 1, padding: '2rem', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gridTemplateRows: 'repeat(10, 1fr)', gap: '1.25rem', zIndex: 10 }}>
+            <div style={{ flex: 1, padding: '2rem', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gridTemplateRows: 'repeat(10, 1fr)', columnGap: '1.25rem', rowGap: '1.75rem', zIndex: 10 }}>
 
               {/* PHOTO BOX (Large Hero) */}
-              <div style={{
-                gridColumn: '1 / 6', gridRow: '1 / 6',
-                background: 'rgba(255,255,255,0.02)', borderRadius: '24px', overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.1)', position: 'relative'
-              }}>
+              <div 
+                ref={photoContainerRef}
+                style={{
+                  gridColumn: '1 / 6', gridRow: '1 / 6',
+                  background: 'rgba(255,255,255,0.02)', borderRadius: '24px', overflow: 'hidden',
+                  border: '1px solid rgba(255,255,255,0.1)', position: 'relative'
+                }}
+              >
                 {data.realPhoto ? (
-                  <div style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundImage: `url("${data.realPhoto}")`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
-                  }} />
+                  <img
+                    src={data.realPhoto}
+                    alt="Subject Bio-Metric"
+                    onLoad={handleImageLoad}
+                    style={getImgStyle()}
+                  />
                 ) : (
                   <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <User size={80} color="rgba(255,255,255,0.05)" />
@@ -330,7 +408,7 @@ export default function PlayerCard({ data, onRestart }) {
             {/* FOOTER: BRANDING & PARTNERS */}
             <div style={{
               background: '#020617',
-              padding: '1.5rem 2rem',
+              padding: '0.85rem 2rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
