@@ -2,10 +2,45 @@ import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import { Download, RefreshCcw, Sword, Ticket, User, ShieldCheck, Zap, Star, Activity, BarChart3, Database, MapPin, Target as GoalIcon } from 'lucide-react';
 
+const toDataURL = (url) => fetch(url)
+  .then(response => response.blob())
+  .then(blob => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  }));
+
 export default function PlayerCard({ data, onRestart }) {
   const cardRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [scale, setScale] = useState(1);
+  const [logoDataUrls, setLogoDataUrls] = useState({});
+
+  useEffect(() => {
+    const logos = {
+      valkey: `${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`,
+      reactHyd: `${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`,
+      juicer: `${import.meta.env.BASE_URL}logos/JuicerTechnology.jpg`,
+      goaAvo: `${import.meta.env.BASE_URL}logos/goaAvo.jpg`
+    };
+
+    const convertLogos = async () => {
+      const converted = {};
+      for (const [key, url] of Object.entries(logos)) {
+        try {
+          const dataUrl = await toDataURL(url);
+          converted[key] = dataUrl;
+        } catch (err) {
+          console.error(`Failed to convert logo ${key} to data URL`, err);
+          converted[key] = url; // Fallback to original URL
+        }
+      }
+      setLogoDataUrls(converted);
+    };
+
+    convertLogos();
+  }, []);
 
   // Responsive scaling logic
   useEffect(() => {
@@ -125,7 +160,7 @@ export default function PlayerCard({ data, onRestart }) {
               <div style={{ position: 'absolute', top: '15px', right: '15px', width: '20px', height: '20px', borderTop: '2px solid var(--color-primary)', borderRight: '2px solid var(--color-primary)' }} />
 
               <div style={{ textAlign: 'center', lineHeight: 1.1 }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '0.4rem' }}>I AM ATTENDING</div>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '0.4rem' }}>ENTERING THE BATTLEFIELD</div>
                 <div style={{ fontSize: 'clamp(1.2rem, 4cqi, 1.9rem)', fontWeight: 950, color: 'white', textTransform: 'uppercase', letterSpacing: '2px', whiteSpace: 'nowrap' }}>
                   <span style={{ color: 'var(--color-primary)', textShadow: '0 0 15px rgba(14,165,233,0.5)' }}>BUILD BEYOND LIMITS</span>
                 </div>
@@ -190,23 +225,22 @@ export default function PlayerCard({ data, onRestart }) {
                     <div style={{ fontSize: '0.65rem', color: 'var(--color-primary)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2px' }}>Full Identification</div>
                     <div style={{ fontSize: '0.5rem', color: '#22c55e', border: '1px solid #22c55e', padding: '1px 6px', borderRadius: '4px', fontWeight: 900 }}>SEC_VERIFIED</div>
                   </div>
-                  <div style={{ fontSize: 'clamp(1.4rem, 4.5cqi, 2.8rem)', fontWeight: 950, color: 'white', letterSpacing: '-0.04em', lineHeight: 1.05, textShadow: '0 0 20px rgba(14,165,233,0.2)', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.realName}</div>
+                  <div style={{ fontSize: 'clamp(1.2rem, 3.8cqi, 2.2rem)', fontWeight: 950, color: 'white', letterSpacing: '-0.04em', lineHeight: 1.05, textShadow: '0 0 20px rgba(14,165,233,0.2)', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.realName}</div>
                   <div style={{ fontSize: 'clamp(0.75rem, 2cqi, 1.1rem)', color: 'rgba(255,255,255,0.6)', fontWeight: 700, marginTop: '0.5rem', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.designation}</div>
                 </div>
 
                 {/* Horizontal Divider */}
                 <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.4), transparent)', margin: '1rem 0' }} />
 
-                {/* Bottom Half: Affiliation & Arena */}
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 5, overflow: 'hidden' }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>College / Company</div>
-                    <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.2rem)', fontWeight: 900, color: 'white', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.organization}</div>
+                {/* Bottom Half: Affiliation & Arena in separate rows */}
+                <div style={{ flex: 1.2, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.75rem', position: 'relative', zIndex: 5, overflow: 'hidden' }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Organization</div>
+                    <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.15rem)', fontWeight: 900, color: 'white', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.organization}</div>
                   </div>
-                  <div style={{ width: '1px', height: '30px', background: 'rgba(14, 165, 233, 0.3)', flexShrink: 0 }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: '0.55rem', color: 'var(--color-primary)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', marginBottom: '0.25rem' }}>Arena Name</div>
-                    <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.2rem)', fontWeight: 900, color: 'white', textTransform: 'uppercase', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.name || 'VALKEYTHON'}</div>
+                    <div style={{ fontSize: 'clamp(0.7rem, 2.5cqi, 1.15rem)', fontWeight: 900, color: 'white', textTransform: 'uppercase', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.name || 'VALKEYTHON'}</div>
                   </div>
                 </div>
 
@@ -312,28 +346,28 @@ export default function PlayerCard({ data, onRestart }) {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
                   <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Powered by</div>
                   <div style={{ height: '36px', display: 'flex', alignItems: 'center' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '28px' }} />
+                    <img src={logoDataUrls.valkey || `${import.meta.env.BASE_URL}logos/valkey-horizontal-color-light.png`} alt="Valkey" style={{ height: '28px' }} />
                   </div>
                 </div>
                 {/* Hosted by React Hyderabad */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
                   <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Hosted by</div>
                   <div style={{ height: '36px', display: 'flex', alignItems: 'center' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '36px', borderRadius: '6px' }} />
+                    <img src={logoDataUrls.reactHyd || `${import.meta.env.BASE_URL}logos/ReactHyderabadLogoFull.jpg`} alt="React Hyderabad" style={{ height: '36px', borderRadius: '6px' }} />
                   </div>
                 </div>
                 {/* Community Partner */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
                   <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Community Partner</div>
                   <div style={{ height: '36px', display: 'flex', alignItems: 'center', background: 'white', padding: '0.3rem 0.6rem', borderRadius: '8px' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/JuicerTechnology.jpg`} alt="Juicer Technology" style={{ height: '22px' }} />
+                    <img src={logoDataUrls.juicer || `${import.meta.env.BASE_URL}logos/JuicerTechnology.jpg`} alt="Juicer Technology" style={{ height: '22px' }} />
                   </div>
                 </div>
                 {/* Platform Partner */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
                   <div style={{ fontSize: '0.45rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>Platform Partner</div>
                   <div style={{ height: '36px', display: 'flex', alignItems: 'center', background: 'white', padding: '0.3rem 0.6rem', borderRadius: '8px' }}>
-                    <img src={`${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="GoAvo" style={{ height: '22px' }} />
+                    <img src={logoDataUrls.goaAvo || `${import.meta.env.BASE_URL}logos/goaAvo.jpg`} alt="GoAvo" style={{ height: '22px' }} />
                   </div>
                 </div>
               </div>

@@ -11,8 +11,11 @@ export default function ProfileUpload({ onNext, initialData }) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setPhotoUrl(url);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -100,7 +103,7 @@ export default function ProfileUpload({ onNext, initialData }) {
           <input
             type="text"
             className="input-field"
-            placeholder="College or Company Name"
+            placeholder="Organization"
             value={organization}
             onChange={(e) => setOrganization(e.target.value)}
           />
