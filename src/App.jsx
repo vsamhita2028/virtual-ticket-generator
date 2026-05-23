@@ -75,7 +75,7 @@ function App() {
     <div className="app-container">
       <header className="text-center mb-8 animate-fade-in">
         <h1 className="text-gradient" style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '0.5rem', textTransform: 'uppercase' }}>
-          ValkeyThon Arena
+          Build Beyond Limits Arena
         </h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '1.2rem' }}>
           {step === 1 ? 'Prepare for Transformation' : 'Forge Your Arena Identity'}
