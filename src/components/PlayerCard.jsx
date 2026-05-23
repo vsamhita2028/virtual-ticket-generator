@@ -449,7 +449,7 @@ export default function PlayerCard({ data, onRestart }) {
               borderTop: '1px solid rgba(14, 165, 233, 0.3)',
               zIndex: 10,
               position: 'relative',
-              flex: 1
+              height: '110px'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', width: '100%', gap: '0.75rem' }}>
                 {/* Powered by Valkey */}

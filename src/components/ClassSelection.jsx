@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Zap, Target, Cpu, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Shield, Zap, Target, Cpu, Cloud, Database, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const CLASSES = [
   {
@@ -29,6 +29,20 @@ const CLASSES = [
     description: 'Keeps systems safe, stable, and working smoothly.',
     icon: <Zap size={32} />,
     color: '#fbbf24'
+  },
+  {
+    id: 'ranger',
+    name: 'Cloud Ranger',
+    description: 'Deploys scalable infrastructure and orchestrates microservices.',
+    icon: <Cloud size={32} />,
+    color: '#8b5cf6'
+  },
+  {
+    id: 'druid',
+    name: 'DB Druid',
+    description: 'Optimizes queries, structures storage, and tames databases.',
+    icon: <Database size={32} />,
+    color: '#f97316'
   }
 ];
 
