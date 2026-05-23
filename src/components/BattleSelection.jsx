@@ -70,8 +70,8 @@ export default function BattleSelection({ onBack, onSelect, selected, onNext }) 
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div style={{ 
-                background: `${battle.color}20`, 
+              <div style={{
+                background: `${battle.color}20`,
                 color: battle.color,
                 padding: '0.5rem',
                 borderRadius: '8px'
@@ -92,7 +92,7 @@ export default function BattleSelection({ onBack, onSelect, selected, onNext }) 
           <ArrowLeft size={18} /> Back
         </button>
         <button className="btn btn-primary" onClick={onNext} disabled={!selected}>
-          Generate Ticket <ArrowRight size={18} />
+          Generate Identity <ArrowRight size={18} />
         </button>
       </div>
     </div>

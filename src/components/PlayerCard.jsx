@@ -429,9 +429,9 @@ export default function PlayerCard({ data, onRestart }) {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fbbf24', marginBottom: '0.5rem' }}>
                   <Zap size={16} />
-                  <span style={{ fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase' }}>Mission Goal</span>
+                  <span style={{ fontSize: '0.6rem', fontWeight: 900, textTransform: 'uppercase' }}>Squad Alliance</span>
                 </div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900, color: 'white', lineHeight: 1.2 }}>{data.battle?.title}</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 900, color: 'white', lineHeight: 1.2, wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{data.teamName || 'SOLO'}</div>
                 <div style={{ marginTop: '0.75rem', fontSize: '0.6rem', color: 'rgba(251, 191, 36, 0.5)', fontWeight: 800, textTransform: 'uppercase' }}>STATUS: ACTIVE</div>
               </div>
 

@@ -33,8 +33,41 @@ export default function ProfileUpload({ onNext, initialData }) {
 
   const isFormValid = realName.trim() && designation.trim() && organization.trim() && photoUrl;
 
+  const BASE = import.meta.env.BASE_URL;
+
   return (
     <div className="animate-fade-in" style={{ maxWidth: '500px', margin: '0 auto', padding: '1rem 0' }}>
+
+      {/* Valkey × React Hyderabad logo bar */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '1rem',
+        marginBottom: '1.75rem',
+        padding: '0.75rem 1.5rem',
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '12px',
+        flexWrap: 'wrap'
+      }}>
+        <img
+          src={`${BASE}logos/valkey-horizontal-color-light.png`}
+          alt="Valkey"
+          style={{ height: '24px', objectFit: 'contain' }}
+        />
+        <div style={{
+          fontSize: '0.75rem', fontWeight: 800,
+          color: 'rgba(255,255,255,0.25)',
+          letterSpacing: '2px'
+        }}>×</div>
+        <img
+          src={`${BASE}logos/ReactHyderabadLogoFull.jpg`}
+          alt="React Hyderabad"
+          style={{ height: '28px', objectFit: 'contain', borderRadius: '5px' }}
+        />
+      </div>
+
       <h2 className="text-center mb-2" style={{ fontSize: '2rem' }}>Tell Us About Yourself</h2>
       <p className="text-center mb-8" style={{ color: 'var(--color-text-muted)' }}>
         Upload a photo and fill in your details to create your hackathon ticket.

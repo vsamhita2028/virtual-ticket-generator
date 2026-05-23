@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import LandingPage from './components/LandingPage';
 import ProfileUpload from './components/ProfileUpload';
 import NameInput from './components/NameInput';
 import ClassSelection from './components/ClassSelection';
-import BattleSelection from './components/BattleSelection';
+import TeamInput from './components/TeamInput';
 import PlayerCard from './components/PlayerCard';
 
 // Import data lists to pick random values from
@@ -21,15 +22,15 @@ const getRandomizedData = () => ({
 });
 
 function App() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [data, setData] = useState(() => ({
     realPhoto: null,
     realName: '',
     designation: '',
     organization: '',
     name: '',
+    teamName: '',
     playerClass: null,
-    battle: null,
     ...getRandomizedData()
   }));
 
@@ -58,17 +59,18 @@ function App() {
     updateData('playerClass', playerClass);
   };
 
-  const handleBattleSelect = (battle) => {
-    updateData('battle', battle);
+  const handleTeamSubmit = (teamName) => {
+    updateData('teamName', teamName);
+    nextStep();
   };
 
   const restart = () => {
     setData({ 
       realPhoto: null, realName: '', designation: '', organization: '', 
-      name: '', playerClass: null, battle: null,
+      name: '', teamName: '', playerClass: null,
       ...getRandomizedData()
     });
-    setStep(1);
+    setStep(0);
   };
 
   return (
@@ -78,12 +80,13 @@ function App() {
           Build Beyond Limits Arena
         </h1>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '1.2rem' }}>
-          {step === 1 ? 'Prepare for Transformation' : 'Forge Your Arena Identity'}
+          {step === 0 ? 'Powered by Valkey · Hosted by React Hyderabad' : 'Forge Your Arena Identity'}
         </p>
       </header>
 
       <main className="glass-panel animate-fade-in" style={{ position: 'relative', overflow: 'hidden' }}>
-        {/* CREATIVE STEP INDICATOR (Nodes) */}
+        {/* CREATIVE STEP INDICATOR (Nodes) — hidden on landing page */}
+        {step > 0 && (
         <div style={{ 
           padding: '1rem 2rem', 
           borderBottom: '1px solid rgba(255,255,255,0.05)',
@@ -120,12 +123,14 @@ function App() {
             </div>
           ))}
         </div>
+        )}
 
-        <div style={{ marginTop: '1.5rem' }}>
+        <div style={{ marginTop: step > 0 ? '1.5rem' : '0' }}>
+          {step === 0 && <LandingPage onGetStarted={nextStep} />}
           {step === 1 && <ProfileUpload onNext={handleProfileSubmit} initialData={data} />}
           {step === 2 && <NameInput onBack={prevStep} onSubmit={handleNameSubmit} initialName={data.name} />}
-          {step === 3 && <ClassSelection onBack={prevStep} onSelect={handleClassSelect} selected={data.playerClass?.id} onNext={nextStep} />}
-          {step === 4 && <BattleSelection onBack={prevStep} onSelect={handleBattleSelect} selected={data.battle?.id} onNext={nextStep} />}
+          {step === 3 && <TeamInput onBack={prevStep} onSubmit={handleTeamSubmit} initialTeamName={data.teamName} />}
+          {step === 4 && <ClassSelection onBack={prevStep} onSelect={handleClassSelect} selected={data.playerClass?.id} onNext={nextStep} />}
           {step === 5 && <PlayerCard data={data} onRestart={restart} />}
         </div>
       </main>

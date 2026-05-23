@@ -49,9 +49,9 @@ export default function ClassSelection({ onBack, onSelect, selected, onNext }) {
               display: 'flex',
               flexDirection: 'column',
               gap: '0.75rem',
-              border: selected === item.id ? `2px solid ${item.color}` : '1px solid rgba(255,255,255,0.1)',
-              background: selected === item.id ? `${item.color}15` : 'rgba(255,255,255,0.02)',
-              position: 'relative'
+              position: 'relative',
+              '--active-color': item.color,
+              '--active-bg': `${item.color}15`
             }}
           >
             <div style={{ color: item.color }}>{item.icon}</div>
