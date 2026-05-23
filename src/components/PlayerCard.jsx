@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
-import { Download, RefreshCcw, Sword, Ticket, User, ShieldCheck, Zap, Star, Activity, BarChart3, Database, MapPin, Target as GoalIcon } from 'lucide-react';
+import { Download, RefreshCcw, Sword, Ticket, User, ShieldCheck, Zap, Star, Activity, BarChart3, Database, MapPin, Target as GoalIcon, X } from 'lucide-react';
 
 const toDataURL = (url) => fetch(url)
   .then(response => response.blob())
@@ -19,6 +19,10 @@ export default function PlayerCard({ data, onRestart }) {
   const [logoDataUrls, setLogoDataUrls] = useState({});
   const [containerSize, setContainerSize] = useState(null);
   const [imgSize, setImgSize] = useState(null);
+  const [iosSaveImage, setIosSaveImage] = useState(null); // holds blob URL for iOS save overlay
+
+  // Detect iOS (iPhone/iPad) — all iOS browsers use WebKit and block programmatic downloads
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
 
   // Recalculate sizes when data.realPhoto changes
@@ -159,25 +163,66 @@ export default function PlayerCard({ data, onRestart }) {
 
       const fileName = `valkeydossier-${(data.name || 'ticket').toLowerCase()}.png`;
 
-      // Convert canvas to Blob for better mobile compatibility
+      // Convert canvas to Blob
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png', 1.0));
 
-      // Direct blob URL download
-      const blobUrl = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      let sw = null;
+      if ('serviceWorker' in navigator) {
+        sw = navigator.serviceWorker.controller;
+        if (!sw) {
+          try {
+            const reg = await navigator.serviceWorker.ready;
+            sw = reg.active;
+          } catch (err) {
+            console.log('SW not ready', err);
+          }
+        }
+      }
 
-      // Clean up the blob URL after a short delay
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+      if (sw) {
+        // Use Service Worker to mimic a server response with proper download headers
+        // This triggers native download dialogs even on iOS!
+        const downloadId = Math.random().toString(36).substring(2, 15);
+        const messageChannel = new MessageChannel();
+        
+        messageChannel.port1.onmessage = (event) => {
+          if (event.data.success) {
+            // Using window.location.href is more reliable for native downloads on iOS 
+            window.location.href = `/__download/${downloadId}`;
+          }
+        };
+
+        sw.postMessage(
+          { type: 'STORE_DOWNLOAD', id: downloadId, blob, filename: fileName },
+          [messageChannel.port2]
+        );
+      } else if (isIOS) {
+        // Fallback for iOS if SW is not ready (e.g. first page load)
+        const blobUrl = URL.createObjectURL(blob);
+        setIosSaveImage(blobUrl);
+      } else {
+        // Fallback for others if SW is not ready
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+      }
     } catch (err) {
       console.error('Error generating image:', err);
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const closeIosOverlay = () => {
+    if (iosSaveImage) {
+      URL.revokeObjectURL(iosSaveImage);
+    }
+    setIosSaveImage(null);
   };
 
   return (
@@ -465,6 +510,54 @@ export default function PlayerCard({ data, onRestart }) {
       </div>
 
 
+      {/* iOS Save Overlay — stays on the same page */}
+      {iosSaveImage && (
+        <div
+          onClick={closeIosOverlay}
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(2, 6, 23, 0.95)', zIndex: 10000,
+            display: 'flex', flexDirection: 'column', alignItems: 'center',
+            justifyContent: 'center', padding: '1.5rem', gap: '1rem',
+            backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)'
+          }}
+        >
+          <button
+            onClick={closeIosOverlay}
+            style={{
+              position: 'absolute', top: '1rem', right: '1rem',
+              background: 'rgba(255,255,255,0.1)', border: 'none',
+              borderRadius: '50%', width: '40px', height: '40px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', color: 'white'
+            }}
+          >
+            <X size={20} />
+          </button>
+          <div style={{
+            background: 'rgba(14, 165, 233, 0.1)', border: '1px solid rgba(14, 165, 233, 0.3)',
+            borderRadius: '100px', padding: '0.5rem 1.25rem',
+            fontSize: '0.85rem', fontWeight: 700, color: 'rgba(255,255,255,0.8)',
+            textAlign: 'center'
+          }}>
+            📱 Long-press the image → tap <strong style={{ color: 'var(--color-primary)' }}>"Save to Photos"</strong>
+          </div>
+          <img
+            src={iosSaveImage}
+            alt="Your ValkeyThon Ticket"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: '90vw', maxHeight: '75vh',
+              borderRadius: '16px',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(14, 165, 233, 0.2)',
+              border: '1px solid rgba(14, 165, 233, 0.3)'
+            }}
+          />
+          <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textAlign: 'center' }}>
+            Tap anywhere outside to close
+          </div>
+        </div>
+      )}
 
       {/* Actions */}
       <div className="card-actions">
@@ -476,7 +569,7 @@ export default function PlayerCard({ data, onRestart }) {
           onClick={handleDownload}
           disabled={isGenerating}
         >
-          {isGenerating ? 'Syncing...' : <><Download size={20} /> Generate Identity</>}
+          {isGenerating ? 'Syncing...' : <><Download size={20} /> {isIOS ? 'Save Identity' : 'Generate Identity'}</>}
         </button>
       </div>
     </div>
