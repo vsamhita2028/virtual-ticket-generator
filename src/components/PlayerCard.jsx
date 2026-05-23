@@ -19,10 +19,7 @@ export default function PlayerCard({ data, onRestart }) {
   const [logoDataUrls, setLogoDataUrls] = useState({});
   const [containerSize, setContainerSize] = useState(null);
   const [imgSize, setImgSize] = useState(null);
-  const [iosHint, setIosHint] = useState(false);
 
-  // Detect iOS (iPhone/iPad) — all iOS browsers use WebKit and block data URL downloads
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
   // Recalculate sizes when data.realPhoto changes
   useEffect(() => {
@@ -160,41 +157,22 @@ export default function PlayerCard({ data, onRestart }) {
         }
       });
 
-      const image = canvas.toDataURL('image/png', 1.0);
+      const fileName = `valkeydossier-${(data.name || 'ticket').toLowerCase()}.png`;
 
-      if (isIOS) {
-        // iOS browsers don't support the download attribute on data URLs.
-        // Open the image in a new tab so the user can long-press → Save to Photos.
-        const newTab = window.open();
-        if (newTab) {
-          newTab.document.write(
-            `<html><head><title>Save Your Ticket</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <style>
-              body { margin: 0; background: #020617; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: sans-serif; color: white; gap: 1rem; padding: 1rem; box-sizing: border-box; }
-              p { font-size: 1rem; color: rgba(255,255,255,0.7); text-align: center; }
-              img { max-width: 100%; border-radius: 16px; }
-            </style></head>
-            <body>
-              <p>Long-press the image below and tap <strong>"Save to Photos"</strong> to download your ticket.</p>
-              <img src="${image}" alt="Your ValkeyThon Ticket" />
-            </body></html>`
-          );
-          newTab.document.close();
-        } else {
-          // Fallback if pop-up was blocked
-          setIosHint(true);
-          setTimeout(() => setIosHint(false), 5000);
-        }
-      } else {
-        // Standard download for non-iOS browsers
-        const link = document.createElement('a');
-        link.href = image;
-        link.download = `valkeydossier-${(data.name || 'ticket').toLowerCase()}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
+      // Convert canvas to Blob for better mobile compatibility
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png', 1.0));
+
+      // Direct blob URL download
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the blob URL after a short delay
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
     } catch (err) {
       console.error('Error generating image:', err);
     } finally {
@@ -486,17 +464,7 @@ export default function PlayerCard({ data, onRestart }) {
         </div>
       </div>
 
-      {/* iOS fallback hint toast */}
-      {iosHint && (
-        <div style={{
-          position: 'fixed', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
-          background: 'rgba(14,165,233,0.95)', color: 'white', padding: '0.75rem 1.5rem',
-          borderRadius: '100px', fontSize: '0.85rem', fontWeight: 700, zIndex: 9999,
-          boxShadow: '0 8px 30px rgba(0,0,0,0.4)', textAlign: 'center', maxWidth: '90vw'
-        }}>
-          Pop-ups blocked — allow pop-ups and try again to view & save your ticket.
-        </div>
-      )}
+
 
       {/* Actions */}
       <div className="card-actions">
@@ -508,7 +476,7 @@ export default function PlayerCard({ data, onRestart }) {
           onClick={handleDownload}
           disabled={isGenerating}
         >
-          {isGenerating ? 'Syncing...' : isIOS ? <><Download size={20} /> Open &amp; Save</> : <><Download size={20} /> Generate Identity</>}
+          {isGenerating ? 'Syncing...' : <><Download size={20} /> Generate Identity</>}
         </button>
       </div>
     </div>
